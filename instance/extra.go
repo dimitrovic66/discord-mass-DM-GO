@@ -136,19 +136,9 @@ func Bypass(client *http.Client, serverid string, token string, invite string) e
 		return err
 	}
 
-	// Now we have all the rules, we can send the request along with our response
-	for i := 0; i < len(bypassInfo.FormFields); i++ {
-		// We set the response to true because we accept the terms as the good TOS followers we are
-		bypassInfo.FormFields[i].Response = true
-	}
-
-	jsonData, err := json.Marshal(bypassInfo)
-	if err != nil {
-		return err
-	}
 	url := "https://discord.com/api/v9/guilds/" + serverid + "/requests/@me"
 
-	req, err = http.NewRequest("PUT", url, strings.NewReader(string(jsonData)))
+	req, err = http.NewRequest("PUT", url, strings.NewReader(string(body)))
 	if err != nil {
 		utilities.LogErr("Error while making http request %v \n", err)
 		return err
